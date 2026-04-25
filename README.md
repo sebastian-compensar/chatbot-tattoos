@@ -1,2 +1,2 @@
 # chatbot-tattoos
-Chatbot web para asesoría y cotización de tatuajes y piercings con integración a WhatsApp.
+Web chatbot for advice and quotes on tattoos and piercings with WhatsApp integration.
