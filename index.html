@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Tattoo AI Studio</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0a0a0a, #1f1f1f);
+    color: white;
+}
+
+.header {
+    text-align: center;
+    padding: 20px;
+    font-size: 28px;
+    background: #000;
+    border-bottom: 2px solid #ff0000;
+}
+
+.chat-container {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    background: #121212;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 0 20px rgba(255,0,0,0.3);
+}
+
+.messages {
+    height: 450px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.msg {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.bot {
+    background: #222;
+}
+
+.user {
+    background: #ff0000;
+    text-align: right;
+}
+
+.input-area {
+    display: flex;
+    margin-top: 10px;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+}
+
+button {
+    padding: 10px 15px;
+    margin-left: 5px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">🔥 Tattoo & Piercing AI Studio</div>
+
+<div class="chat-container">
+    <div class="messages" id="chat"></div>
+
+    <div class="input-area">
+        <input id="input" placeholder="Escribe tu idea...">
+        <button onclick="send()">Enviar</button>
+    </div>
+</div>
+
+<script>
+
+function addMessage(text, type){
+    let chat = document.getElementById("chat");
+    let div = document.createElement("div");
+    div.className = "msg " + type;
+    div.innerHTML = text;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+function random(arr){
+    return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function cotizarTattoo(text){
+    if(text.includes("peque")) return "💰 Precio estimado: $300.000 - $800.000 COP";
+    if(text.includes("media")) return "💰 Precio estimado: $800.000 - $2.000.000 COP";
+    if(text.includes("grande")) return "💰 Precio estimado: $2.000.000 - $6.000.000 COP";
+    return "💰 Precio depende del tamaño: pequeño, mediano o grande";
+}
+
+function cotizarPiercing(text){
+    if(text.includes("nariz")) return "💎 Nariz: $120.000 - $200.000 COP";
+    if(text.includes("oreja")) return "💎 Oreja: $80.000 - $150.000 COP";
+    if(text.includes("ombligo")) return "💎 Ombligo: $150.000 - $300.000 COP";
+    return "💎 Piercing: $80.000 - $300.000 COP";
+}
+
+function ideasTattoo(){
+    let ideas = [
+        "🔥 Un diseño minimalista con líneas finas",
+        "🖤 Blackwork con sombras profundas",
+        "🌹 Realismo con detalles en color",
+        "⚡ Geométrico moderno",
+        "🕊️ Tatuaje simbólico personalizado"
+    ];
+    return random(ideas);
+}
+
+function links(){
+    return `
+    🔗 Referencias:<br>
+    YouTube: https://www.youtube.com/results?search_query=tattoo+ideas<br>
+    Imágenes: https://www.google.com/search?q=tattoo+ideas&tbm=isch
+    `;
+}
+
+function send(){
+    let input = document.getElementById("input");
+    let text = input.value.toLowerCase();
+
+    addMessage(text, "user");
+
+    let response = "";
+
+    if(text.includes("tatu")){
+        response = `
+        🎨 ${ideasTattoo()}<br>
+        ${cotizarTattoo(text)}<br>
+        ${links()}<br>
+        💡 Puedo ayudarte a mejorar tu diseño, dime más detalles.
+        `;
+    }
+    else if(text.includes("piercing")){
+        response = `
+        💎 ${cotizarPiercing(text)}<br>
+        ${links()}<br>
+        💡 Recomiendo usar acero quirúrgico o titanio.
+        `;
+    }
+    else if(text.includes("hola") || text.includes("hey")){
+        response = "🔥 Bienvenido, soy tu asesor experto en tatuajes y piercings. Dime qué idea tienes.";
+    }
+    else{
+        response = `
+        🤖 Entiendo que buscas algo único.<br>
+        ${ideasTattoo()}<br>
+        ${links()}<br>
+        💰 Puedo darte precio si me dices tamaño y zona.
+        `;
+    }
+
+    setTimeout(()=> addMessage(response, "bot"), 600);
+    input.value = "";
+}
+
+addMessage("🔥 Hola, soy tu asesor IA. Cuéntame tu idea de tatuaje o piercing.", "bot");
+
+</script>
+
+</body>
+</html>
